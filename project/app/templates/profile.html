@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,12 +10,80 @@
     <link rel="stylesheet" href="{% static "css/style.css" %}">
     <script src="{% static "js/bootstrap.min.js" %}" defer></script>
 </head>
+
 <body>
-    <h3>Placeholder for profile page from profile route.</h3>
-    <hr>
-    <span>
-        <a href="/index">Route: /index or /</a> |
-        <a href="/success">Route: /success</a>
-    </span>
+    <nav class="navbar navbar-expand-sm bg-light">
+        <div class="container-fluid">
+            <h1>StockTickler</h1>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/index">Route: /index or /</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/success">Route: /success</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container-fluid">
+        <br>
+        <h5>First_name Last_name's Stock Watchlist:</h5>
+        <br>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Symbol</th>
+                    <th scope="col">List Price</th>
+                    <th scope="col">Watch Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>AAA</td>
+                    <td>1.11</td>
+                    <td>2.22</td>
+                </tr>
+                <tr>
+                    <td>BBB</td>
+                    <td>3.33</td>
+                    <td>4.44</td>
+                </tr>
+                <tr>
+                    <td>CCC</td>
+                    <td>5.55</td>
+                    <td>6.66</td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        <div class="bg-light">
+            <h5>Update Info.</h5>
+            <form action="" method="post"> <!-- Update Name Form -->
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="first_name" class="label label-default">First Name</label>
+                    <input type="text" class="form-control" name="first_name" value="first_name">
+                </div>
+                <div class="form-group">
+                    <label for="last_name" class="label label-default">Last Name</label>
+                    <input type="text" class="form-control" name="last_name" value="last_name">
+                </div>
+                <div class="text-right">
+                    <button type="submit" class="btn btn-warning">Update Name</button>
+                </div>
+            </form>
+            <form action="" method="post"> <!-- Update Email Form -->
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="email" class="label label-default">Email</label>
+                    <input type="email" class="form-control" name="email" value="email">
+                </div>
+                <div class="text-right">
+                    <button type="submit" class="btn btn-warning">Update Email</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </body>
+
 </html>
