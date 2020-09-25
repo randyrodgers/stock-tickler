@@ -29,7 +29,7 @@
     <div class="container-fluid">
         <br>
         <h5>Register</h5>
-        <form action="" method="post">
+        <form action="/register" method="post">
             {% csrf_token %}
             <div class="form-group">
                 <label for="first_name" class="label label-default">First Name</label>
@@ -57,7 +57,7 @@
         </form>
         <hr style="border-top: 1px black solid;">
         <h5>Login</h5>
-        <form action="" method="post">
+        <form action="/login" method="post">
             {% csrf_token %}
             <div class="form-group">
                 <label for="email" class="label label-default">Email</label>

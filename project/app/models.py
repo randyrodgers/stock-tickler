@@ -7,10 +7,31 @@ class StockManager( models.Manager ):
     pass
 
 class UserManager( models.Manager ):
-    def login_validator( self, form ):
-        pass
     def register_validator( self, form ):
-        pass 
+        errors = {}
+        EMAIL_REGEX = re.compile( r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$' )
+        if form['first_name'] == '':
+            errors['first_name'] = 'First name must be provided.'
+        if form['last_name'] == '':
+            errors['last_name'] = 'Last name must be provided.'
+        if not EMAIL_REGEX.match( form['email'] ):
+            errors['email_invalid'] = 'Email must be in a valid format.'
+        if User.objects.filter( email = form['email'] ):
+            errors['email_exists'] = "Email address is already registered."
+        if form['password'] != form['password2']:
+            errors['password_mismatch'] = "Check that your password confirmation matches the supplied password."
+        if len( form['password'] ) < 8:
+            errors['password_length'] = 'Password must be at least 8 characters.'
+        return errors
+
+    def login_validator( self, form ):
+        errors = {}
+        EMAIL_REGEX = re.compile( r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$' )
+        if not EMAIL_REGEX.match( form['email'] ):
+            errors['email_invalid'] = 'Email must be in a valid format.'
+        if len( form['password'] ) < 8:
+            errors['password_length'] = 'Password must be at least 8 characters.'
+        return errors
 
 ######################## Models #########################
 
@@ -29,4 +50,4 @@ class User( models.Model ):
     stocks = models.ManyToManyField( Stock, related_name = "watchers" )
     created_at = models.DateTimeField( auto_now_add = True )
     updated_at = models.DateTimeField( auto_now = True )
-    # objects = UserManager()
+    objects = UserManager()
