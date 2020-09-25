@@ -28,33 +28,35 @@
     </nav>
     <div class="container-fluid">
         <br>
-        <h5>Register</h5>
-        <form action="" method="post">
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="first_name" class="label label-default">First Name</label>
-                <input type="text" class="form-control" name="first_name" placeholder="Enter first name...">
-            </div>
-            <div class="form-group">
-                <label for="last_name" class="label label-default">Last Name</label>
-                <input type="text" class="form-control" name="last_name" placeholder="Enter last name...">
-            </div>
-            <div class="form-group">
-                <label for="email" class="label label-default">Email</label>
-                <input type="email" class="form-control" name="email" placeholder="Enter email address...">
-                <small class="form-text text-muted">We'll never share your email with anyone else.</small>
-            </div>
-            <div class="form-group">
-                <label for="password" class="label label-default">Password</label>
-                <input type="password" class="form-control" name="password">
-                <small class="form-text text-muted">Must be at least 8 characters in length.</small>
-            </div>
-            <div class="form-group">
-                <label for="password2" class="label label-default">Confirm Password</label>
-                <input type="password" class="form-control" name="password2">
-            </div>
-            <button type="submit" class="btn btn-success">Register</button>
-        </form>
+        <div class="register-container">
+            <h5>Register</h5>
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="first_name" class="label label-default">First Name</label>
+                    <input type="text" class="form-control" name="first_name" placeholder="Enter first name...">
+                </div>
+                <div class="form-group">
+                    <label for="last_name" class="label label-default">Last Name</label>
+                    <input type="text" class="form-control" name="last_name" placeholder="Enter last name...">
+                </div>
+                <div class="form-group">
+                    <label for="email" class="label label-default">Email</label>
+                    <input type="email" class="form-control" name="email" placeholder="Enter email address...">
+                    <small class="form-text text-muted">We'll never share your email with anyone else.</small>
+                </div>
+                <div class="form-group">
+                    <label for="password" class="label label-default">Password</label>
+                    <input type="password" class="form-control" name="password">
+                    <small class="form-text text-muted">Must be at least 8 characters in length.</small>
+                </div>
+                <div class="form-group">
+                    <label for="password2" class="label label-default">Confirm Password</label>
+                    <input type="password" class="form-control" name="password2">
+                </div>
+                <button type="submit" class="btn btn-success">Register</button>
+            </form>
+        </div>
         <hr style="border-top: 1px black solid;">
         <h5>Login</h5>
         <form action="" method="post">
