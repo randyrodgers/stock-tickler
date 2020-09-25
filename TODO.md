@@ -2,9 +2,6 @@
 ##### Make sure to update this list by deleting items after they've been implemented and tested.
 
 - Protect Routes against Unathenticated Access
-- Delete User Profile
-- Templatize the User's Name in success.html
-- Templatize the User's Name in profile.html
 - Templatization of Stocks in Watchlist in profile.html
 - Updating of Watch Prices of Stocks in Watchlist in profile.html
 - Removal of Stocks in Watchlist in profile.html

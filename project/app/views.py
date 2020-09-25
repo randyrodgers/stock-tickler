@@ -7,11 +7,15 @@ def index( request ):
     return render( request, 'index.html' )
 
 def success( request ):
-    context = {}
+    context = {
+        'user' : User.objects.get( id = request.session['logged_user_id'] )
+    }
     return render( request, 'success.html', context )
 
 def profile( request ):
-    context = {}
+    context = {
+        'user' : User.objects.get( id = request.session['logged_user_id'] )
+    }
     return render( request, 'profile.html', context )
 
 def register( request ):
@@ -47,5 +51,53 @@ def login( request ):
     return redirect( '/' )
 
 def logout( request ):
+    request.session.flush()
+    return redirect( '/' )
+
+def update_user_name( request, user_id ):
+    if request.method == 'POST':
+        errors = User.objects.update_name_validator( request.POST )
+        if len( errors ) > 0:
+            print( 'Errors detected:')
+            for value in errors.values():
+                print( f'{value}')
+                messages.error( request, value )
+            print( 'Returning to profile.html')
+            return redirect( '/profile' )
+        user = User.objects.get( id = request.session['logged_user_id'] )
+        if bcrypt.checkpw( request.POST['password'].strip().encode(), user.password.encode() ):
+            user.first_name = request.POST['first_name'].strip()
+            user.last_name = request.POST['last_name'].strip()
+            user.save()
+    return redirect( '/profile' )
+
+def update_user_email( request, user_id ):
+    if request.method == 'POST':
+        errors = User.objects.update_email_validator( request.POST, request.session['logged_user_id'] )
+        if len( errors ) > 0:
+            for value in errors.values():
+                messages.error( request, value )
+            return redirect( '/profile' )
+        user = User.objects.get( id = request.session['logged_user_id'] )
+        if bcrypt.checkpw( request.POST['password'].strip().encode(), user.password.encode() ):
+            user.email = request.POST['email'].strip()
+            user.save()
+    return redirect( '/profile' )
+
+def udpate_user_password( request, user_id ):
+    if request.method == 'POST':
+        errors = User.objects.update_password_validator( request.POST )
+        if len( errors ) > 0:
+            for value in errors.values():
+                messages.error( request, value )
+            return redirect( '/profile' )
+        user = User.objects.get( id = request.session['logged_user_id'] )
+        if bcrypt.checkpw( request.POST['password3'].strip().encode(), user.password.encode() ):
+            user.password = bcrypt.hashpw( request.POST['password'].strip().encode(), bcrypt.gensalt() ).decode()
+            user.save()
+    return redirect( '/profile' )
+
+def delete_user( request ):
+    User.objects.get( id = request.session['logged_user_id'] ).delete()
     request.session.flush()
     return redirect( '/' )

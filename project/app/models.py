@@ -33,6 +33,38 @@ class UserManager( models.Manager ):
             errors['password_length'] = 'Password must be at least 8 characters.'
         return errors
 
+    def update_name_validator( self, form ):
+        errors = {}
+        if form['first_name'] == '':
+            errors['first_name'] = 'First name must be provided.'
+        if form['last_name'] == '':
+            errors['last_name'] = 'Last name must be provided.'
+        if form['password'] == '':
+            errors['password'] = 'Password must be provided.'
+        return errors
+    
+    def update_email_validator( self, form, user_id ):
+        errors = {}
+        EMAIL_REGEX = re.compile( r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$' )
+        if not EMAIL_REGEX.match( form['email'] ):
+            errors['email_invalid'] = 'Email must be in a valid email format.'
+        if User.objects.filter( email = form['email'].strip() ):
+            if form['email'].strip() != User.objects.get( id = user_id ).email:
+                errors['email_exists'] = 'Email is already in use.'
+        if form['password'] == '':
+            errors['password'] = 'Password must be provided.'
+        return errors
+    
+    def update_password_validator( self, form ):
+        errors = {}
+        if form['password'] != form['password2']:
+            errors['password_mismatch'] = 'Check that your password confirmation matches your new password.'
+        if len( form['password'] ) < 8:
+            errors['password_length'] = 'New password must be at least 8 characters.'
+        if len( form['password3'] ) < 1:
+            errors['password_needed'] = 'Old password required.'
+        return errors
+
 ######################## Models #########################
 
 class Stock( models.Model ):

@@ -25,7 +25,7 @@
     </nav>
     <div class="container-fluid">
         <br>
-        <h5>Welcome, First_name Last_name!</h5> <!-- Templatize the User's name here! -->
+        <h5>Welcome, {{ user.first_name }} {{ user.last_name}}!</h5>
         <form action="" method="post">
             {% csrf_token %}
             <div class="form-group">
