@@ -1,7 +1,6 @@
 # Functionality Left to Implement
 ##### Make sure to update this list by deleting items after they've been implemented and tested.
 
-- Protect Routes against Unathenticated Access
 - Templatization of Stocks in Watchlist in profile.html
 - Updating of Watch Prices of Stocks in Watchlist in profile.html
 - Removal of Stocks in Watchlist in profile.html
