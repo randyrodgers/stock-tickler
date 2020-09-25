@@ -35,6 +35,7 @@
                     <th scope="col">Symbol</th>
                     <th scope="col">List Price</th>
                     <th scope="col">Watch Price</th>
+                    <th scope="col">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -42,21 +43,25 @@
                     <td>AAA</td>
                     <td>1.11</td>
                     <td>2.22</td>
+                    <td><a href="" class="btn btn-warning">Change Watch</a> <a href="" class="btn btn-danger">Remove</a></td>
                 </tr>
                 <tr>
                     <td>BBB</td>
                     <td>3.33</td>
                     <td>4.44</td>
+                    <td><a href="" class="btn btn-warning">Change Watch</a> <a href="" class="btn btn-danger">Remove</a></td>
                 </tr>
                 <tr>
                     <td>CCC</td>
                     <td>5.55</td>
                     <td>6.66</td>
+                    <td><a href="" class="btn btn-warning">Change Watch</a> <a href="" class="btn btn-danger">Remove</a></td>
                 </tr>
             </tbody>
         </table>
         <br>
         <div class="bg-light">
+            <br>
             <h5>Update Info.</h5>
             <form action="" method="post"> <!-- Update Name Form -->
                 {% csrf_token %}
@@ -82,6 +87,29 @@
                     <button type="submit" class="btn btn-warning">Update Email</button>
                 </div>
             </form>
+            <form action="" method="post"> <!-- Update Password Form -->
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="password" class="label label-default">New Password</label>
+                    <input type="password" class="form-control" name="password">
+                </div>
+                <div class="form-group">
+                    <label for="password2" class="label label-default">Confirm New Password</label>
+                    <input type="password" class="form-control" name="password2">
+                </div>
+                <div class="form-group">
+                    <label for="password3" class="label label-default">Old Password</label>
+                    <input type="password" class="form-control" name="password3">
+                </div>
+                <div class="text-right">
+                    <button type="submit" class="btn btn-warning">Update Password</button>
+                </div>
+            </form>
+            <br>
+            <div class="text-center">
+                <a href="" class="btn btn-danger">Delete Profile</a>
+            </div>
+            <br>
         </div>
     </div>
 </body>
