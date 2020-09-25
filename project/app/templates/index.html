@@ -29,6 +29,13 @@
     <div class="container-fluid">
         <br>
         <h5>Register</h5>
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li class="err-msg">{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
         <form action="/register" method="post">
             {% csrf_token %}
             <div class="form-group">

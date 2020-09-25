@@ -41,7 +41,7 @@ def login( request ):
         user_list = User.objects.filter( email = request.POST['email'] )
         if len( user_list ) > 0:
             logged_user = user_list[0] # email addresses are unique
-            if bcrypt.checkpw( request.POST['password'].encode(), logged_user.hash_pw.encode() ):
+            if bcrypt.checkpw( request.POST['password'].encode(), logged_user.password.encode() ):
                 request.session['logged_user_id'] = logged_user.id 
                 return redirect( '/profile' )
     return redirect( '/' )
