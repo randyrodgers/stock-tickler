@@ -1,11 +1,7 @@
 # Functionality Left to Implement
 ##### Make sure to update this list by deleting items after they've been implemented and tested.
 
-- Registration Input Validation
-- Login Input Validation
-- User Authentication
 - Protect Routes against Unathenticated Access
-- User Logout
 - Delete User Profile
 - Templatize the User's Name in success.html
 - Templatize the User's Name in profile.html
