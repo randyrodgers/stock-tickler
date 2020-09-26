@@ -1,10 +1,27 @@
 from django.db import models
 import re
+from pandas_datareader import data
+from pandas_datareader._utils import RemoteDataError
+import pandas as pd
+import numpy as np
+from datetime import datetime
 
 ######################## Managers ########################
 
 class StockManager( models.Manager ):
-    pass
+    def find_stock_validator(self, form):
+        errors = {}
+        START_DATE = '2005-01-01'
+        END_DATE = str(datetime.now().strftime('%Y-%m-%d'))
+        try: 
+            stock_data = data.DataReader(form['ticker'], 'yahoo', START_DATE, END_DATE)
+            if float(form['watch_price']) < 0.01:
+                errors['watch_price'] = 'Watch price must be at least $0.01!'
+        except RemoteDataError:
+            errors['ticker'] = 'No stock data found for ' + form['ticker'] + '!'
+            if float(form['watch_price']) < 0.01:
+                errors['watch_price'] = 'Watch price must be at least $0.01!'
+        return errors
 
 class UserManager( models.Manager ):
     def register_validator( self, form ):
@@ -69,11 +86,12 @@ class UserManager( models.Manager ):
 
 class Stock( models.Model ):
     ticker = models.CharField( max_length = 10 )
+    current_price = models.DecimalField( max_digits = 11, decimal_places = 2 )
     watch_price = models.DecimalField( max_digits = 11, decimal_places = 2 )
     current_price = models.DecimalField( max_digits = 11, decimal_places =2, null = True )
     created_at = models.DateTimeField( auto_now_add = True )
     updated_at = models.DateTimeField( auto_now = True )
-    # objects = StockManager()
+    objects = StockManager()
 
 class User( models.Model ):
     first_name = models.CharField( max_length = 100 )
