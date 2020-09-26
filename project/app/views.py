@@ -17,7 +17,8 @@ def success( request ):
 def profile( request ):
     if 'logged_user_id' in request.session:
         context = {
-            'user' : User.objects.get( id = request.session['logged_user_id'] )
+            'user' : User.objects.get( id = request.session['logged_user_id'] ),
+            'stocks': User.objects.get( id = request.session['logged_user_id'] ).stocks.all()
         }
         return render( request, 'profile.html', context )
     return redirect( '/' )
@@ -111,3 +112,10 @@ def delete_user( request ):
         User.objects.get( id = request.session['logged_user_id'] ).delete()
         request.session.flush()
     return redirect( '/' )
+
+def update_stock_watch_price( request, stock_id):
+    if request.method == "POST":
+        stock = Stock.objects.get( id = stock_id)
+        stock.watch_price = request.POST['id_watch_price']
+        stock.save()
+    return redirect('/profile')
