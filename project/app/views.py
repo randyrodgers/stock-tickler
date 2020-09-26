@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import * 
 import bcrypt 
+from project.settings import EMAIL_HOST_USER
+from django.core.mail import send_mail
 
 def index( request ):
     return render( request, 'index.html' )
@@ -116,6 +118,11 @@ def delete_user( request ):
 def update_stock_watch_price( request, stock_id):
     if request.method == "POST":
         stock = Stock.objects.get( id = stock_id)
+        old_price = stock.watch_price
         stock.watch_price = request.POST['id_watch_price']
         stock.save()
+        subject = "Change to " + stock.ticker + " Watch Price"
+        message = "You are receiving this email to confirm that you have changed your watch price for " + stock.ticker + " from $" + str(old_price) + " to $" + str(stock.watch_price) + ". You will now receive an email notification if the stock reaches your new watch price. Thanks for using Stock Tickler!"
+        receipient = str(User.objects.get(id = request.session['logged_user_id']).email)
+        send_mail(subject, message, EMAIL_HOST_USER, [receipient], fail_silently=False)
     return redirect('/profile')
