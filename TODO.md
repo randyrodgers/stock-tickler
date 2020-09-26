@@ -9,5 +9,3 @@
 - Determine if Stock's List Price has Matched or Traveled Past (Eclipsed?) the Watch Price
 - Send an Email if Stock's List Price has Eclipsed the Watch Price
 - Round out Rough Edges with Beautiful Bootstrap Styling
-- Cannonicalize email addresses to lower case on registration
-- Cannonicalize email addresses to lower case on login
