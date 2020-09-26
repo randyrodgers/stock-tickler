@@ -16,7 +16,7 @@ class UserManager( models.Manager ):
             errors['last_name'] = 'Last name must be provided.'
         if not EMAIL_REGEX.match( form['email'] ):
             errors['email_invalid'] = 'Email must be in a valid format.'
-        if User.objects.filter( email = form['email'] ):
+        if User.objects.filter( email = form['email'].strip().lower() ): 
             errors['email_exists'] = "Email address is already registered."
         if form['password'] != form['password2']:
             errors['password_mismatch'] = "Check that your password confirmation matches the supplied password."
@@ -48,8 +48,8 @@ class UserManager( models.Manager ):
         EMAIL_REGEX = re.compile( r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$' )
         if not EMAIL_REGEX.match( form['email'] ):
             errors['email_invalid'] = 'Email must be in a valid email format.'
-        if User.objects.filter( email = form['email'].strip() ):
-            if form['email'].strip() != User.objects.get( id = user_id ).email:
+        if User.objects.filter( email = form['email'].strip().lower() ):
+            if form['email'].strip().lower() != User.objects.get( id = user_id ).email: 
                 errors['email_exists'] = 'Email is already in use.'
         if form['password'] == '':
             errors['password'] = 'Password must be provided.'

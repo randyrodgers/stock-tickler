@@ -36,7 +36,7 @@ def register( request ):
         hashed_pw = bcrypt.hashpw( password.encode(), bcrypt.gensalt() ).decode()
         user = User.objects.create( first_name = request.POST['first_name'].strip(),
                                     last_name = request.POST['last_name'].strip(),
-                                    email = request.POST['email'].strip(),
+                                    email = request.POST['email'].strip().lower(), 
                                     password = hashed_pw )
         request.session['logged_user_id'] = user.id 
         return redirect( '/profile' )
@@ -49,7 +49,7 @@ def login( request ):
             for value in errors.values():
                 messages.error( request, value )
             return redirect( '/' )
-        user_list = User.objects.filter( email = request.POST['email'] )
+        user_list = User.objects.filter( email = request.POST['email'].strip().lower() ) 
         if len( user_list ) > 0:
             logged_user = user_list[0] # email addresses are unique
             if bcrypt.checkpw( request.POST['password'].encode(), logged_user.password.encode() ):
@@ -89,7 +89,7 @@ def update_user_email( request, user_id ):
                 return redirect( '/profile' )
             user = User.objects.get( id = request.session['logged_user_id'] )
             if bcrypt.checkpw( request.POST['password'].strip().encode(), user.password.encode() ):
-                user.email = request.POST['email'].strip()
+                user.email = request.POST['email'].strip().lower() 
                 user.save()
         return redirect( '/profile' )
     return redirect( '/' )
