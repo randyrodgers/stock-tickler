@@ -8,12 +8,12 @@ from django.core.mail import send_mail
 def index( request ):
     return render( request, 'index.html' )
 
-def success( request ):
+def add_stock( request ):
     if 'logged_user_id' in request.session:
         context = {
             'user' : User.objects.get( id = request.session['logged_user_id'] )
         }
-        return render( request, 'success.html', context )
+        return render( request, 'add_stock.html', context )
     return redirect( '/' )
 
 def profile( request ):
@@ -126,3 +126,15 @@ def update_stock_watch_price( request, stock_id):
         receipient = str(User.objects.get(id = request.session['logged_user_id']).email)
         send_mail(subject, message, EMAIL_HOST_USER, [receipient], fail_silently=False)
     return redirect('/profile')
+
+def find_stock( request ):
+    if request.method == 'POST':
+        errors = Stock.objects.find_stock_validator( request.POST )
+        if len( errors ) > 0:
+            for value in errors.values():
+                messages.error( request, value )
+            return redirect( '/add_stock' )
+        
+        
+
+
