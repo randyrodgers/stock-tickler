@@ -15,8 +15,12 @@ class StockManager( models.Manager ):
         END_DATE = str(datetime.now().strftime('%Y-%m-%d'))
         try: 
             stock_data = data.DataReader(form['ticker'], 'yahoo', START_DATE, END_DATE)
+            if float(form['watch_price']) < 0.01:
+                errors['watch_price'] = 'Watch price must be at least $0.01!'
         except RemoteDataError:
             errors['ticker'] = 'No stock data found for ' + form['ticker'] + '!'
+            if float(form['watch_price']) < 0.01:
+                errors['watch_price'] = 'Watch price must be at least $0.01!'
         return errors
 
 class UserManager( models.Manager ):
