@@ -44,9 +44,9 @@
                     <td>
                         <form action="http://localhost:8000/update/stock/watch_price/{{stock.id}}" method="post">
                             {% csrf_token %}
-                            <input type="number" step="0.01" class="form-control" name="id_watch_price" value="{{stock.watch_price}}" min = 0.01>
+                            <input type="number" step="0.01" class="form-control" name="{{ stock.id }}_watch_price" value="{{stock.watch_price}}" min = 0.01>
                     </td>
-                    <td><button type="submit" class="btn btn-warning">Change Watch Price</button></form> <a href="" class="btn btn-danger">Remove</a></td>
+                    <td><button type="submit" class="btn btn-warning">Change Watch Price</button></form> <a href="/delete/stock/{{ stock.id }}" class="btn btn-danger">Remove</a></td>
                 </tr>
                 {% endfor %}
             </tbody>

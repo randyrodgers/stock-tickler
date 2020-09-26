@@ -120,6 +120,12 @@ def delete_user( request ):
         request.session.flush()
     return redirect( '/' )
 
+def delete_stock( request, stock_id ):
+    if 'logged_user_id' in request.session:
+        Stock.objects.get( id = stock_id ).delete()
+        return redirect( '/profile' )
+    return redirect( '/' )
+
 def update_stock_watch_price( request, stock_id):
     if request.method == "POST":
         stock = Stock.objects.get( id = stock_id)
