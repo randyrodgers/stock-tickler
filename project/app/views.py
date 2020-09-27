@@ -154,13 +154,16 @@ def find_stock( request ):
         current_stock_price = stock_stats['last_price']
         
         # Prevent duplicate listings in the Watch List
-        stocks_list = Stock.objects.filter( ticker = request.POST['ticker'].strip() )
-        if len( stocks_list ) == 0:
+        user = User.objects.get(id = request.session['logged_user_id'])
+        if request.POST['ticker'].strip() not in user.stocks.all():
             new_stock = Stock.objects.create(ticker = request.POST['ticker'].strip(), current_price = current_stock_price, watch_price = request.POST['watch_price'])
-            user = User.objects.get(id = request.session['logged_user_id'])
             user.stocks.add(new_stock)
 
         return redirect('/profile')
+
+# def get_all_watched_stocks():
+#     master_list = []
+
 
 #################### Helper Methods for Getting Stock ################
 def get_data (ticker, start, end):
