@@ -152,10 +152,14 @@ def find_stock( request ):
         cleaned_data = clean_data(stock_data, 'Adj Close', START_DATE, END_DATE)
         stock_stats = get_stats(cleaned_data)
         current_stock_price = stock_stats['last_price']
-        new_stock = Stock.objects.create(ticker = request.POST['ticker'], current_price = current_stock_price, watch_price = request.POST['watch_price'])
+        
+        # Prevent duplicate listings in the Watch List
+        stocks_list = Stock.objects.filter( ticker = request.POST['ticker'].strip() )
+        if len( stocks_list ) == 0:
+            new_stock = Stock.objects.create(ticker = request.POST['ticker'].strip(), current_price = current_stock_price, watch_price = request.POST['watch_price'])
+            user = User.objects.get(id = request.session['logged_user_id'])
+            user.stocks.add(new_stock)
 
-        user = User.objects.get(id = request.session['logged_user_id'])
-        user.stocks.add(new_stock)
         return redirect('/profile')
 
 #################### Helper Methods for Getting Stock ################
