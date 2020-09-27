@@ -30,7 +30,7 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th scope="col">Symbol</th>
+                    <th scope="col">Symbol*</th>
                     <th scope="col">List Price</th>
                     <th scope="col">Watch Price</th>
                     <th scope="col">Actions</th>
@@ -51,10 +51,10 @@
                 {% endfor %}
             </tbody>
         </table>
+        <p>* Market data provided by <em><a href="https://finance.yahoo.com/">yahoo! Finance</a></em>.</p>
         <br>
         <div class="bg-light">
             <br>
-            <h5>Update Info.</h5>
             {% if messages %}
             <ul class="messages">
                 {% for message in messages %}
@@ -62,6 +62,7 @@
                 {% endfor %}
             </ul>
             {% endif %}
+            <h5>Update Name</h5>
             <form action="/update/name/user/{{ user.id }}" method="post"> <!-- Update Name Form -->
                 {% csrf_token %}
                 <div class="form-group">
@@ -81,6 +82,7 @@
                 </div>
             </form>
             <hr>
+            <h5>Update Email</h5>
             <form action="/update/email/user/{{ user.id }}" method="post"> <!-- Update Email Form -->
                 {% csrf_token %}
                 <div class="form-group">
@@ -96,6 +98,7 @@
                 </div>
             </form>
             <hr>
+            <h5>Update Password</h5>
             <form action="/update/password/user/{{ user.id }}" method="post"> <!-- Update Password Form -->
                 {% csrf_token %}
                 <div class="form-group">

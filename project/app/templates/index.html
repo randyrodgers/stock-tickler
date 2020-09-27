@@ -32,25 +32,20 @@
             <form action="/register" method="post">
                 {% csrf_token %}
                 <div class="form-group">
-                    <!-- <label for="first_name" class="label label-default">First Name</label> -->
                     <input type="text" class="form-control" name="first_name" placeholder="First Name">
                 </div>
                 <div class="form-group">
-                    <!-- <label for="last_name" class="label label-default">Last Name</label> -->
                     <input type="text" class="form-control" name="last_name" placeholder="Last Name">
                 </div>
                 <div class="form-group">
-                    <!-- <label for="email" class="label label-default">Email</label> -->
                     <input type="email" class="form-control" name="email" placeholder="Email Address">
                     <small class="form-text text-muted text-left">We'll never share your email with anyone else.</small>
                 </div>
                 <div class="form-group">
-                    <!-- <label for="password" class="label label-default">Password</label> -->
                     <input type="password" class="form-control" name="password" placeholder="Password">
                     <small class="form-text text-muted text-left">Must be at least 8 characters in length.</small>
                 </div>
                 <div class="form-group">
-                    <!-- <label for="password2" class="label label-default">Confirm Password</label> -->
                     <input type="password" class="form-control" name="password2" placeholder="Confirm Password">
                 </div>
                 <button type="submit" class="btn btn-success">Register</button>
@@ -61,11 +56,9 @@
             <form action="/login" method="post">
                 {% csrf_token %}
                 <div class="form-group">
-                    <!-- <label for="email" class="label label-default">Email</label> -->
                     <input type="email" class="form-control" name="email" placeholder="Email Address">
                 </div>
                 <div class="form-group">
-                    <!-- <label for="password" class="label label-default">Password</label> -->
                     <input type="password" class="form-control" name="password" placeholder="Password">
                 </div>
                 <button type="submit" class="btn btn-primary">Login</button>
