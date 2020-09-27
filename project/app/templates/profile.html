@@ -17,8 +17,8 @@
             <h1>StockTickler</h1>
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="btn btn-outline-dark" href="/logout">Logout</a>
                     <a class="btn btn-outline-dark" href="/add_stock">Picker</a>
+                    <a class="btn btn-outline-dark" href="/logout">Logout</a>
                 </li>
             </ul>
         </div>
@@ -27,10 +27,11 @@
         <br>
         <h5>{{ user.first_name }}{% if user.first_name|last == "s" %}'{% else %}'s{% endif %} Stock Watchlist:</h5>
         <br>
+        <p>Market data provided by <em><a href="https://finance.yahoo.com/">yahoo! Finance</a></em>.</p>
         <table class="table">
             <thead>
                 <tr>
-                    <th scope="col">Symbol*</th>
+                    <th scope="col">Symbol</th>
                     <th scope="col">List Price</th>
                     <th scope="col">Watch Price</th>
                     <th scope="col">Actions</th>
@@ -51,7 +52,6 @@
                 {% endfor %}
             </tbody>
         </table>
-        <p>* Market data provided by <em><a href="https://finance.yahoo.com/">yahoo! Finance</a></em>.</p>
         <br>
         <div class="bg-light">
             <br>

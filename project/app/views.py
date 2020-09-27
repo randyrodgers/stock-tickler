@@ -10,6 +10,10 @@ import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
 
+START_DATE = str((datetime.now() - timedelta(days=5*365)).strftime('%Y-%m-%d'))
+END_DATE = str(datetime.now().strftime('%Y-%m-%d'))
+ADJ_CLOSE = 'Adj Close'
+
 def index( request ):
     return render( request, 'index.html' )
 
@@ -145,25 +149,48 @@ def find_stock( request ):
             for value in errors.values():
                 messages.error( request, value )
             return redirect( '/add_stock' )
-        
-        START_DATE = str((datetime.now() - timedelta(days=5*365)).strftime('%Y-%m-%d'))
-        END_DATE = str(datetime.now().strftime('%Y-%m-%d'))
+
         stock_data = get_data(request.POST['ticker'], START_DATE, END_DATE)
-        cleaned_data = clean_data(stock_data, 'Adj Close', START_DATE, END_DATE)
+        cleaned_data = clean_data(stock_data, ADJ_CLOSE, START_DATE, END_DATE)
         stock_stats = get_stats(cleaned_data)
         current_stock_price = stock_stats['last_price']
         
         # Prevent duplicate listings in the Watch List
         user = User.objects.get(id = request.session['logged_user_id'])
-        if request.POST['ticker'].strip() not in user.stocks.all():
+        user_ticker_list = []
+        for stock in user.stocks.all():
+            user_ticker_list.append( stock.ticker )
+        if request.POST['ticker'].strip() not in user_ticker_list:
             new_stock = Stock.objects.create(ticker = request.POST['ticker'].strip(), current_price = current_stock_price, watch_price = request.POST['watch_price'])
             user.stocks.add(new_stock)
 
         return redirect('/profile')
 
-# def get_all_watched_stocks():
-#     master_list = []
+'''
+def alert_if_watch_price_met():
+    master_ticker_list = []
 
+    for stock in Stock.objects.all():
+        if stock.ticker not in master_ticker_list:
+            master_ticker_list.append( stock.ticker )
+
+    for ticker in master_ticker_list:
+        stock_data = get_data( ticker, START_DATE, END_DATE )
+        cleaned_data = clean_data( stock_data, ADJ_CLOSE, START_DATE, END_DATE )
+        stock_stats = get_stats( cleaned_data )
+        new_stock_price = stock_stats['last_price']
+
+
+
+
+        # grab updated data
+        for user in User.objects.all():
+            if stock in user.stocks.all():
+                # if NP >= WP and NP > CP:
+                    # send email to user about stock
+                # elif NP <= WP and NP < CP:
+                    # send email to user about stock
+'''
 
 #################### Helper Methods for Getting Stock ################
 def get_data (ticker, start, end):
