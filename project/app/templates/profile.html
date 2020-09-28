@@ -23,11 +23,11 @@
             </ul>
         </div>
     </nav>
-    <div class="container-fluid">
+    <div class="container">
         <br>
-        <h5>{{ user.first_name }}{% if user.first_name|last == "s" %}'{% else %}'s{% endif %} Stock Watchlist:</h5>
-        <br>
-        <p>Market data provided by <em><a href="https://finance.yahoo.com/">yahoo! Finance</a></em>.</p>
+        <h5>{{ user.first_name }}{% if user.first_name|last == "s" %}'{% else %}'s{% endif %} Watchlist:</h5>
+        <small class="text-muted">Market data provided by <em><a href="https://finance.yahoo.com/">yahoo! Finance</a></em>.</small>
+        <br><br>
         <table class="table">
             <thead>
                 <tr>
