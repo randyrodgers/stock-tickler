@@ -62,7 +62,7 @@
                 {% endfor %}
             </ul>
             {% endif %}
-            <h5>Update Name</h5>
+            <h5 class="update-form-headline">Update Name</h5>
             <form action="/update/name/user/{{ user.id }}" method="post" class="centered-form"> <!-- Update Name Form -->
                 {% csrf_token %}
                 <div class="form-group">
@@ -82,7 +82,7 @@
                 </div>
             </form>
             <hr>
-            <h5>Update Email</h5>
+            <h5 class="update-form-headline">Update Email</h5>
             <form action="/update/email/user/{{ user.id }}" method="post" class="centered-form"> <!-- Update Email Form -->
                 {% csrf_token %}
                 <div class="form-group">
@@ -98,7 +98,7 @@
                 </div>
             </form>
             <hr>
-            <h5>Update Password</h5>
+            <h5 class="update-form-headline">Update Password</h5>
             <form action="/update/password/user/{{ user.id }}" method="post" class="centered-form"> <!-- Update Password Form -->
                 {% csrf_token %}
                 <div class="form-group">
