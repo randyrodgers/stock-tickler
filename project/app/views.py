@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.db import connection 
 from .models import * 
-import bcrypt 
+import bcrypt, schedule
 from project.settings import EMAIL_HOST_USER
 from django.core.mail import send_mail
 from pandas_datareader import data
@@ -9,11 +10,12 @@ from pandas_datareader._utils import RemoteDataError
 import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
+from threading import Thread 
 
+# Stock Constants
 START_DATE = str((datetime.now() - timedelta(days=5*365)).strftime('%Y-%m-%d'))
 END_DATE = str(datetime.now().strftime('%Y-%m-%d'))
 ADJ_CLOSE = 'Adj Close'
-now = datetime.now()
 
 def index( request ):
     return render( request, 'index.html' )
@@ -173,6 +175,13 @@ def find_stock( request ):
             return redirect('/profile')
     return redirect( '/' )
 
+def start_new_thread( function ):
+    def decorator( *args, **kwargs ):
+        t = Thread( target = function, args = args, kwargs = kwargs )
+        t.daemon = True 
+        t.start()
+    return decorator 
+
 def poll_yahoo_and_alert_if_watch_price_met():
     master_ticker_list = []
 
@@ -216,6 +225,11 @@ def poll_yahoo_and_alert_if_watch_price_met():
                 stock = Stock.objects.get( ticker = ticker )
                 stock.current_price = new_stock_price
                 stock.save()
+
+    connection.close()
+
+# Periodically Poll Yahoo, and Email Users if needed:
+start_new_thread( schedule.every( 15 ).minutes.do( poll_yahoo_and_alert_if_watch_price_met ) )
 
 #################### Helper Methods for Getting Stock ################
 def get_data (ticker, start, end):
