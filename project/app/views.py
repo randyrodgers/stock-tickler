@@ -130,7 +130,7 @@ def update_stock_watch_price( request, stock_id):
     if request.method == "POST":
         stock = Stock.objects.get( id = stock_id)
         old_price = stock.watch_price
-        stock.watch_price = request.POST['id_watch_price']
+        stock.watch_price = request.POST['watch_price']
         stock.save()
         subject = "Change to " + stock.ticker + " Watch Price"
         message = "You are receiving this email to confirm that you have changed your watch price for " + stock.ticker + " from $" + str(old_price) + " to $" + str(stock.watch_price) + ". You will now receive an email notification if the stock reaches your new watch price. Thanks for using Stock Tickler!"
