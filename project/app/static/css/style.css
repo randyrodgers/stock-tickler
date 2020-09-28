@@ -2,3 +2,9 @@
 {
     color: red;
 }
+
+form 
+{
+    max-width: 60%;
+    margin: auto;
+}

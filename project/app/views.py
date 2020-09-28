@@ -13,6 +13,7 @@ from datetime import datetime, timedelta
 START_DATE = str((datetime.now() - timedelta(days=5*365)).strftime('%Y-%m-%d'))
 END_DATE = str(datetime.now().strftime('%Y-%m-%d'))
 ADJ_CLOSE = 'Adj Close'
+now = datetime.now()
 
 def index( request ):
     return render( request, 'index.html' )
