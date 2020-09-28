@@ -1,0 +1,15 @@
+.err-msg
+{
+    color: red;
+}
+
+.centered-form 
+{
+    max-width: 60%;
+    margin: auto;
+}
+
+.update-form-headline
+{
+    margin-left: 20px;
+}

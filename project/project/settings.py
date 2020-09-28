@@ -125,3 +125,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# EMAIL settings required to fireoff email
+
+with open( 'project/secrets.json', 'r' ) as secret_key_file:
+    data = secret_key_file.read()
+    obj = json.loads( data )
+    EMAIL_HOST_PASSWORD = str( obj[ 'EMAIL_HOST_PASSWORD' ] )
+    secret_key_file.close()
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'stockticklerCD@gmail.com'

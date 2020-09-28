@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Success</title>
+    <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}">
+    <link rel="stylesheet" href="{% static "css/style.css" %}">
+    <script src="{% static "js/bootstrap.min.js" %}" defer></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-sm bg-light">
+        <div class="container-fluid">
+            <h1>StockTickler</h1>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="btn btn-outline-dark" href="/profile">Profile</a>
+                    <a class="btn btn-outline-dark" href="/logout">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <br>
+        <h5>Welcome, {{ user.first_name }} {{ user.last_name}}!</h5>
+        <form action="/find_stock" method="post" class="centered-form">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="ticker" class="label label-default">Stock Ticker</label>
+                {% if messages %}
+                {% for message in messages %}
+                <li style = "color:red;">{{message}}</li>
+                {% endfor %}
+                {% endif %}
+                <input type="text" class="form-control" name="ticker" placeholder="Enter symbol...">
+            </div>
+            <div class="form-group">
+                <label for="watch_price" class="label label-default">Watch Price</label>
+                <input type="number" step="0.01" class="form-control" name="watch_price" placeholder="Enter watch price...">
+            </div>
+            <div class="text-right">
+                <button type="submit" class="btn btn-primary">Add to My Stocks</button>
+            </div>
+        </form>
+        <br>
+    </div>
+</body>
+
+</html>
