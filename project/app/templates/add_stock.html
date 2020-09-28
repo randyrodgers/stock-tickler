@@ -17,16 +17,16 @@
             <h1>StockTickler</h1>
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="btn btn-outline-dark" href="/logout">Logout</a>
                     <a class="btn btn-outline-dark" href="/profile">Profile</a>
+                    <a class="btn btn-outline-dark" href="/logout">Logout</a>
                 </li>
             </ul>
         </div>
     </nav>
-    <div class="container-fluid">
+    <div class="container">
         <br>
         <h5>Welcome, {{ user.first_name }} {{ user.last_name}}!</h5>
-        <form action="http://localhost:8000/find_stock" method="post">
+        <form action="/find_stock" method="post" class="centered-form">
             {% csrf_token %}
             <div class="form-group">
                 <label for="ticker" class="label label-default">Stock Ticker</label>
@@ -37,8 +37,6 @@
                 {% endif %}
                 <input type="text" class="form-control" name="ticker" placeholder="Enter symbol...">
             </div>
-
-        <hr style="border-top: 1px black solid;">
             <div class="form-group">
                 <label for="watch_price" class="label label-default">Watch Price</label>
                 <input type="number" step="0.01" class="form-control" name="watch_price" placeholder="Enter watch price...">

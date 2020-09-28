@@ -18,57 +18,59 @@
             <h1>StockTickler</h1>
         </div>
     </nav>
-    <div class="container-fluid">
+    <div class="container">
         <br>
-        <h5>Register</h5>
         {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-            <li class="err-msg">{{ message }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-        <form action="/register" method="post">
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="first_name" class="label label-default">First Name</label>
-                <input type="text" class="form-control" name="first_name" placeholder="Enter first name...">
-            </div>
-            <div class="form-group">
-                <label for="last_name" class="label label-default">Last Name</label>
-                <input type="text" class="form-control" name="last_name" placeholder="Enter last name...">
-            </div>
-            <div class="form-group">
-                <label for="email" class="label label-default">Email</label>
-                <input type="email" class="form-control" name="email" placeholder="Enter email address...">
-                <small class="form-text text-muted">We'll never share your email with anyone else.</small>
-            </div>
-            <div class="form-group">
-                <label for="password" class="label label-default">Password</label>
-                <input type="password" class="form-control" name="password">
-                <small class="form-text text-muted">Must be at least 8 characters in length.</small>
-            </div>
-            <div class="form-group">
-                <label for="password2" class="label label-default">Confirm Password</label>
-                <input type="password" class="form-control" name="password2">
-            </div>
-            <button type="submit" class="btn btn-success">Register</button>
-        </form>
-        <hr style="border-top: 1px black solid;">
-        <h5>Login</h5>
-        <form action="/login" method="post">
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="email" class="label label-default">Email</label>
-                <input type="email" class="form-control" name="email" placeholder="Enter email address...">
-            </div>
-            <div class="form-group">
-                <label for="password" class="label label-default">Password</label>
-                <input type="password" class="form-control" name="password">
-            </div>
-            <button type="submit" class="btn btn-primary">Login</button>
-        </form>
-        <br>
+            <ul class="messages">
+                {% for message in messages %}
+                <li class="err-msg">{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        <h3>Register</h3>
+        <div class="jumbotron text-center bg-white">
+            <form action="/register" method="post" class="centered-form">
+                {% csrf_token %}
+                <div class="form-group">
+                    <input type="text" class="form-control" name="first_name" placeholder="First Name">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" name="last_name" placeholder="Last Name">
+                </div>
+                <div class="form-group">
+                    <input type="email" class="form-control" name="email" placeholder="Email Address">
+                    <small class="form-text text-muted text-left">We'll never share your email with anyone else.</small>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" name="password" placeholder="Password">
+                    <small class="form-text text-muted text-left">Must be at least 8 characters in length.</small>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" name="password2" placeholder="Confirm Password">
+                </div>
+                <button type="submit" class="btn btn-success">Register</button>
+            </form>
+        </div>
+        <h3>Login</h3>
+        <div class="jumbotron text-center bg-white">
+            <form action="/login" method="post" class="centered-form">
+                {% csrf_token %}
+                <div class="form-group">
+                    <input type="email" class="form-control" name="email" placeholder="Email Address">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" name="password" placeholder="Password">
+                </div>
+                <button type="submit" class="btn btn-primary">Login</button>
+            </form>
+            <br>
+        </div>
+        <div class="jumbotron text-center">
+            <h1> Disclaimer </h1>
+            <p> Before using this site, please make sure that you note the following important information:</p>
+            <p><b>Do Your Own Research</b></p>
+            <p> Our own content is intended to be used and must be used for informational purposes only. It is very important to do your own analysis before making any investment based on your own pesonal circumstances. You should take independent financial advice from a professional in connection with, or independently research and verify, any information that you find on our Website and wish to rely upon, whether for the purpose of making an investment decision or otherwise.</p>
+        </div>
     </div>
 </body>
 
