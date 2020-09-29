@@ -38,7 +38,7 @@ Allow users easy access to their favorite stocks much like Robinhood does, but b
   <p align = "center"><kbd><img src = "/images/change_wp_email.gif"></kbd></p>
   <li>Navigate to the Picker page to find other stocks to add</li>
   <br>
-  <p align = "center"><kbd><img src = "/images/picker_page.gif"></kbd></p>
+  <p align = "center"><kbd><img src = "/images/picker.png"></kbd></p>
   <li>There are validations to check if your given ticker symbol exists for a real stock</li>
   <br>
   <p align = "center"><kbd><img src = "/images/stock_validations.gif"></kbd></p>
