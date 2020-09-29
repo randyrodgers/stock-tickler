@@ -15,5 +15,6 @@ urlpatterns = [
     path( 'delete/user', views.delete_user ), 
     path( 'delete/stock/<int:stock_id>', views.delete_stock ),
     path( 'update/stock/watch_price/<int:stock_id>', views.update_stock_watch_price),
-    path( 'find_stock', views.find_stock)
+    path( 'find_stock', views.find_stock),
+    path( 'refresh', views.poll_yahoo_and_alert_if_watch_price_met)
 ]

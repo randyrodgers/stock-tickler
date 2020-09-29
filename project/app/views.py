@@ -11,6 +11,8 @@ import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
 from threading import Thread 
+import schedule
+import time
 
 # Stock Constants
 START_DATE = str((datetime.now() - timedelta(days=5*365)).strftime('%Y-%m-%d'))
@@ -175,7 +177,7 @@ def find_stock( request ):
             return redirect('/profile')
     return redirect( '/' )
 
-def poll_yahoo_and_alert_if_watch_price_met():
+def poll_yahoo_and_alert_if_watch_price_met(request):
     master_ticker_list = []
 
     # populate the master ticker list
@@ -215,11 +217,12 @@ def poll_yahoo_and_alert_if_watch_price_met():
                     send_mail( subject, message, EMAIL_HOST_USER, [receipient], fail_silently = False )
         
                 # and update the stock
-                stock = Stock.objects.get( ticker = ticker )
-                stock.current_price = new_stock_price
-                stock.save()
+                stocks = Stock.objects.filter( ticker = ticker )
+                for stock in stocks:
+                    stock.current_price = new_stock_price
+                    stock.save()
+    return redirect('/profile')
 
-    connection.close()
 
 # Periodically Poll Yahoo, and Email Users if needed:
 # schedule.every( 15 ).minutes.do( poll_yahoo_and_alert_if_watch_price_met ) 
@@ -237,3 +240,7 @@ def get_stats(stock_data):
     return {
         'last_price': np.mean(stock_data.tail(1))
     }
+
+def test():
+    print("boof")
+
