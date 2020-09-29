@@ -1,7 +1,7 @@
 # Stock Tickler
 Website allowing users to add listed stocks to their watch list and be alerted should that stock exceed/go under their desired watch price!
 
-<p align = "center"><kbd><img src = "/images/home.png"></kbd></p>
+<p align = "center"><kbd><img src = "/images/home1.png"></kbd></p>
 
 <p><strong>Stock Tickler's purpose:</strong><br> 
 Allow users easy access to their favorite stocks much like Robinhood does, but be automatically notified of their stock's status, so users will not have to constantly worry about their stocks' status. </p>
