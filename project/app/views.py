@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.db import connection 
 from .models import * 
-import bcrypt, schedule
+import bcrypt
 from project.settings import EMAIL_HOST_USER
 from django.core.mail import send_mail
 from pandas_datareader import data
@@ -175,13 +175,6 @@ def find_stock( request ):
             return redirect('/profile')
     return redirect( '/' )
 
-def start_new_thread( function ):
-    def decorator( *args, **kwargs ):
-        t = Thread( target = function, args = args, kwargs = kwargs )
-        t.daemon = True 
-        t.start()
-    return decorator 
-
 def poll_yahoo_and_alert_if_watch_price_met():
     master_ticker_list = []
 
@@ -229,7 +222,7 @@ def poll_yahoo_and_alert_if_watch_price_met():
     connection.close()
 
 # Periodically Poll Yahoo, and Email Users if needed:
-start_new_thread( schedule.every( 15 ).minutes.do( poll_yahoo_and_alert_if_watch_price_met ) )
+# schedule.every( 15 ).minutes.do( poll_yahoo_and_alert_if_watch_price_met ) 
 
 #################### Helper Methods for Getting Stock ################
 def get_data (ticker, start, end):
