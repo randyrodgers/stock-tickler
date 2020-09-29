@@ -11,6 +11,8 @@ import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
 from threading import Thread 
+import schedule
+import time
 
 # Stock Constants
 START_DATE = str((datetime.now() - timedelta(days=5*365)).strftime('%Y-%m-%d'))
@@ -175,51 +177,58 @@ def find_stock( request ):
             return redirect('/profile')
     return redirect( '/' )
 
-def poll_yahoo_and_alert_if_watch_price_met():
-    master_ticker_list = []
+def poll_yahoo_and_alert_if_watch_price_met(request):
+    if 'logged_user_id' in request.session:
+        master_ticker_list = []
 
-    # populate the master ticker list
-    for stock in Stock.objects.all():
-        if stock.ticker not in master_ticker_list:
-            master_ticker_list.append( stock.ticker )
+        # populate the master ticker list
+        for stock in Stock.objects.all():
+            if stock.ticker not in master_ticker_list:
+                master_ticker_list.append( stock.ticker )
 
-    # use master ticker list to ...
-    for ticker in master_ticker_list:
+        # use master ticker list to ...
+        for ticker in master_ticker_list:
 
-        # poll yahoo, ...
-        stock_data = get_data( ticker, START_DATE, END_DATE )
-        cleaned_data = clean_data( stock_data, ADJ_CLOSE, START_DATE, END_DATE )
-        stock_stats = get_stats( cleaned_data )
-        new_stock_price = stock_stats['last_price']
+            # poll yahoo, ...
+            stock_data = get_data( ticker, START_DATE, END_DATE )
+            cleaned_data = clean_data( stock_data, ADJ_CLOSE, START_DATE, END_DATE )
+            stock_stats = get_stats( cleaned_data )
+            new_stock_price = stock_stats['last_price']
 
-        # alert users by ...
-        for user in User.objects.all():
-            stocks_list = user.stocks.filter( ticker = ticker )
-            if len( stocks_list ) > 0:
-                stock = user.stocks.get( ticker = ticker )
-                if new_stock_price >= stock.watch_price and new_stock_price > stock.current_price:
-                    # sending an email about the watch price being met
-                    subject = "Watch Price for " + stock.ticker + " Met"
-                    message = "You are receiving this email, because the current price for " + stock.ticker + ", $" + str( new_stock_price ) + ", " + \
-                              "has met your watch price of $" + str( stock.current_price ) + \
-                              ".\nThanks for using Stock Tickler!"
-                    receipient = str( user.email )
-                    send_mail( subject, message, EMAIL_HOST_USER, [receipient], fail_silently = False )
-                elif new_stock_price <= stock.watch_price and new_stock_price < stock.current_price:
-                    # sending an email about the watch price being met
-                    subject = "Watch Price for " + stock.ticker + " Met"
-                    message = "You are receiving this email, because the current price for " + stock.ticker + ", $" + str( new_stock_price ) + ", " + \
-                              "has met your watch price of $" + str( stock.current_price ) + \
-                              ".\nThanks for using Stock Tickler!"
-                    receipient = str( user.email )
-                    send_mail( subject, message, EMAIL_HOST_USER, [receipient], fail_silently = False )
-        
-                # and update the stock
-                stock = Stock.objects.get( ticker = ticker )
-                stock.current_price = new_stock_price
-                stock.save()
+            # alert users by ...
+            for user in User.objects.all():
+                stocks_list = user.stocks.filter( ticker = ticker )
+                if len( stocks_list ) > 0:
+                    stock = user.stocks.get( ticker = ticker )
+                    if new_stock_price >= stock.watch_price and new_stock_price > stock.current_price:
+                        # sending an email about the watch price being met
+                        subject = "Watch Price for " + stock.ticker + " Met"
+                        message = "You are receiving this email, because the current price for " + stock.ticker + ", $" + str( new_stock_price ) + ", " + \
+                                "has met your watch price of $" + str( stock.current_price ) + \
+                                ".\nThanks for using Stock Tickler!"
+                        receipient = str( user.email )
+                        send_mail( subject, message, EMAIL_HOST_USER, [receipient], fail_silently = False )
+                    elif new_stock_price <= stock.watch_price and new_stock_price < stock.current_price:
+                        # sending an email about the watch price being met
+                        subject = "Watch Price for " + stock.ticker + " Met"
+                        message = "You are receiving this email, because the current price for " + stock.ticker + ", $" + str( new_stock_price ) + ", " + \
+                                "has met your watch price of $" + str( stock.current_price ) + \
+                                ".\nThanks for using Stock Tickler!"
+                        receipient = str( user.email )
+                        send_mail( subject, message, EMAIL_HOST_USER, [receipient], fail_silently = False )
+            
+                    # and update the stock
+                    stocks = Stock.objects.filter( ticker = ticker )
+                    for stock in stocks:
+                        stock.current_price = new_stock_price
+                        stock.save()
+        context = {
+            'user' : User.objects.get( id = request.session['logged_user_id'] ),
+            'stocks': User.objects.get( id = request.session['logged_user_id'] ).stocks.all()
+        }
+        return render(request, 'partials/partial_profile.html', context)
+    return redirect('/profile')
 
-    connection.close()
 
 # Periodically Poll Yahoo, and Email Users if needed:
 # schedule.every( 15 ).minutes.do( poll_yahoo_and_alert_if_watch_price_met ) 
@@ -237,3 +246,4 @@ def get_stats(stock_data):
     return {
         'last_price': np.mean(stock_data.tail(1))
     }
+

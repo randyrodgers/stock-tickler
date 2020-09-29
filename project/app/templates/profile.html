@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}">
     <link rel="stylesheet" href="{% static "css/style.css" %}">
     <script src="{% static "js/bootstrap.min.js" %}" defer></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 
 <body>
@@ -28,6 +29,7 @@
         <h5>{{ user.first_name }}{% if user.first_name|last == "s" %}'{% else %}'s{% endif %} Watchlist:</h5>
         <small class="text-muted">Market data provided by <em><a href="https://finance.yahoo.com/">yahoo! Finance</a></em>.</small>
         <br><br>
+        
         <table class="table">
             <thead>
                 <tr>
@@ -35,9 +37,13 @@
                     <th scope="col">List Price</th>
                     <th scope="col">Watch Price</th>
                     <th scope="col">Actions</th>
+                    <th scope = "col"><form action="http://localhost:8000/refresh" method = "GET" id = "retrieve_stock_data">
+                        {%csrf_token%}
+                        <button class = "btn btn-info">Refresh</button>
+                    </form></th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id = "table_body">
                 {% for stock in stocks%}
                 <tr>
                     <td>{{stock.ticker}}</td>
@@ -124,6 +130,29 @@
             <br>
         </div>
     </div>
+
+
+
+    <script>
+        setInterval(function(){ 
+            console.log('interval reached');
+            $('#retrieve_stock_data').submit();
+        }, 5000);
+        $(document).on('submit', '#retrieve_stock_data', function() {
+            $.ajax({
+                type: $(this).attr('method'),
+                url: $(this).attr('action'),
+                data: $(this).serialize(),
+                success: function (data) {
+                    $('#table_body').html(data);
+                },
+                error: function(data) {
+                    console.log("something went wrong");
+                }
+            });
+            return false;
+        });
+      </script>
 </body>
 
 </html>
