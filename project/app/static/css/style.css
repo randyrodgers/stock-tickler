@@ -13,3 +13,35 @@
 {
     margin-left: 20px;
 }
+
+.container{
+    border-radius: 15px;
+    /* background-color: lightpink; */
+}
+
+.profile-update-form-container{
+    border-radius: 25px;
+    margin-bottom: 25px;
+}
+
+.add-stock-container{
+    background-color: #f8f9fa;
+    margin-top: 50px;
+    text-align: center;
+    border-radius: 10000px;
+    min-width: 100px;
+    min-height: 100px;
+}
+
+.register-form-container h3{
+    margin-left: 25px;
+}
+
+.register-form-container{
+    padding-top: 20px;
+    border-radius: 25px;
+}
+
+.jumbotron{
+    border-radius: 25px;
+}

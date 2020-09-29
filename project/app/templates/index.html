@@ -27,43 +27,47 @@
                 {% endfor %}
             </ul>
             {% endif %}
-        <h3>Register</h3>
-        <div class="jumbotron text-center bg-white">
-            <form action="/register" method="post" class="centered-form">
-                {% csrf_token %}
-                <div class="form-group">
-                    <input type="text" class="form-control" name="first_name" placeholder="First Name">
-                </div>
-                <div class="form-group">
-                    <input type="text" class="form-control" name="last_name" placeholder="Last Name">
-                </div>
-                <div class="form-group">
-                    <input type="email" class="form-control" name="email" placeholder="Email Address">
-                    <small class="form-text text-muted text-left">We'll never share your email with anyone else.</small>
-                </div>
-                <div class="form-group">
-                    <input type="password" class="form-control" name="password" placeholder="Password">
-                    <small class="form-text text-muted text-left">Must be at least 8 characters in length.</small>
-                </div>
-                <div class="form-group">
-                    <input type="password" class="form-control" name="password2" placeholder="Confirm Password">
-                </div>
-                <button type="submit" class="btn btn-success">Register</button>
-            </form>
+        <div class="bg-light register-form-container">
+            <h3>Register</h3>
+            <div class="jumbotron text-center bg-light">
+                <form action="/register" method="post" class="centered-form">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="first_name" placeholder="First Name">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="last_name" placeholder="Last Name">
+                    </div>
+                    <div class="form-group">
+                        <input type="email" class="form-control" name="email" placeholder="Email Address">
+                        <small class="form-text text-muted text-left">We'll never share your email with anyone else.</small>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" name="password" placeholder="Password">
+                        <small class="form-text text-muted text-left">Must be at least 8 characters in length.</small>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" name="password2" placeholder="Confirm Password">
+                    </div>
+                    <button type="submit" class="btn btn-success">Register</button>
+                </form>
+            </div>
         </div>
-        <h3>Login</h3>
-        <div class="jumbotron text-center bg-white">
-            <form action="/login" method="post" class="centered-form">
-                {% csrf_token %}
-                <div class="form-group">
-                    <input type="email" class="form-control" name="email" placeholder="Email Address">
-                </div>
-                <div class="form-group">
-                    <input type="password" class="form-control" name="password" placeholder="Password">
-                </div>
-                <button type="submit" class="btn btn-primary">Login</button>
-            </form>
-            <br>
+        <div class="register-form-container bg-light">
+            <h3>Login</h3>
+            <div class="jumbotron text-center bg-light">
+                <form action="/login" method="post" class="centered-form">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <input type="email" class="form-control" name="email" placeholder="Email Address">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" name="password" placeholder="Password">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </form>
+                <br>
+            </div>
         </div>
         <div class="jumbotron text-center">
             <h1> Disclaimer </h1>

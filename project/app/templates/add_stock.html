@@ -24,28 +24,30 @@
         </div>
     </nav>
     <div class="container">
-        <br>
-        <h5>Welcome, {{ user.first_name }} {{ user.last_name}}!</h5>
-        <form action="/find_stock" method="post" class="centered-form">
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="ticker" class="label label-default">Stock Ticker</label>
-                {% if messages %}
-                {% for message in messages %}
-                <li style = "color:red;">{{message}}</li>
-                {% endfor %}
-                {% endif %}
-                <input type="text" class="form-control" name="ticker" placeholder="Enter symbol...">
-            </div>
-            <div class="form-group">
-                <label for="watch_price" class="label label-default">Watch Price</label>
-                <input type="number" step="0.01" class="form-control" name="watch_price" placeholder="Enter watch price...">
-            </div>
-            <div class="text-right">
-                <button type="submit" class="btn btn-primary">Add to My Stocks</button>
-            </div>
-        </form>
-        <br>
+        <div class="add-stock-container">
+            <br>
+            <h5>Welcome, {{ user.first_name }} {{ user.last_name}}!</h5>
+            <form action="/find_stock" method="post" class="centered-form">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="ticker" class="label label-default">Stock Ticker</label>
+                    {% if messages %}
+                    {% for message in messages %}
+                    <li style = "color:red;">{{message}}</li>
+                    {% endfor %}
+                    {% endif %}
+                    <input type="text" class="form-control" name="ticker" placeholder="Enter symbol...">
+                </div>
+                <div class="form-group">
+                    <label for="watch_price" class="label label-default">Watch Price</label>
+                    <input type="number" step="0.01" class="form-control" name="watch_price" placeholder="Enter watch price...">
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Add to My Stocks</button>
+                </div>
+            </form>
+            <br>
+        </div>
     </div>
 </body>
 
