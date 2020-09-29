@@ -45,3 +45,14 @@
 .jumbotron{
     border-radius: 25px;
 }
+
+.logo
+{
+    width: 480px;
+    height: 100px;
+}
+
+.btn-outline-dark
+{
+    border: 3px solid black;
+}
