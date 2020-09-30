@@ -88,6 +88,7 @@ class Stock( models.Model ):
     ticker = models.CharField( max_length = 10 )
     current_price = models.DecimalField( max_digits = 11, decimal_places = 2 )
     watch_price = models.DecimalField( max_digits = 11, decimal_places = 2 )
+    notify =  models.BooleanField( default = True )
     created_at = models.DateTimeField( auto_now_add = True )
     updated_at = models.DateTimeField( auto_now = True )
     objects = StockManager()
