@@ -1,7 +1,7 @@
 setInterval(function(){ 
     console.log('interval reached');
     $('#retrieve_stock_data').submit();
-}, 5000);
+}, 60000);
 $(document).on('submit', '#retrieve_stock_data', function() {
     $.ajax({
         type: $(this).attr('method'),
