@@ -22,29 +22,32 @@ Allow users easy access to their favorite stocks much like Robinhood does, but b
 <ol>
   <li>Login/Register to join the Stock Tickler community to save stocks to your watch list!</li>
   <br>
-  <p align = "center"><kbd><img src = "/images/login:reg.gif"></kbd></p>
+  <p align = "center"><kbd><img src = "/images/login_page.gif"></kbd></p>
  <li>The login/register page is equipped with validations to ensure data congruency</li>
   <br>
- <p align = "center"><kbd><img src = "/images/validations.gif"></kbd></p>
+ <p align = "center"><kbd><img src = "/images/validate.gif"></kbd></p>
   <li>Once logged in, you have access to your watch list!</li>
   <br>
- <p align = "center"><kbd><img src = "/images/home.gif"></kbd></p>
+ <p align = "center"><kbd><img src = "/images/login.gif"></kbd></p>
   <li>Change your name, email, password easily at the bottom of the page. Just enter your password!</li>
   <br>
-  <p align = "center"><kbd><img src = "/images/update.gif"></kbd></p>
+  <p align = "center"><kbd><img src = "/images/update1.gif"></kbd></p>
   <li>Change your stock watch_price easily! A corresponding email will be sent to your email to notify you of the change.</li>
   <br>
-  <p align = "center"><kbd><img src = "/images/change_watch_price.gif"></kbd></p>
+  <p align = "center"><kbd><img src = "/images/change_price.gif"></kbd></p>
   <p align = "center"><kbd><img src = "/images/change_wp_email.gif"></kbd></p>
   <li>Navigate to the Picker page to find other stocks to add</li>
   <br>
   <p align = "center"><kbd><img src = "/images/picker.png"></kbd></p>
   <li>There are validations to check if your given ticker symbol exists for a real stock</li>
   <br>
-  <p align = "center"><kbd><img src = "/images/stock_validations.gif"></kbd></p>
+  <p align = "center"><kbd><img src = "/images/stock_validate.gif"></kbd></p>
   <li>If the stock is valid, let Stock Tickler work its magic and add it to your watchlist!</li>
   <br>
-  <p align = "center"><kbd><img src = "/images/grab_stock.gif"></kbd></p>
+  <p align = "center"><kbd><img src = "/images/add_stock.gif"></kbd></p>
+  <li>If the watch price for a stock in your watchlist is ever met, you will receive an email!</li>
+  <br>
+  <p align = "center"><kbd><img src = "/images/watch_price_email.png"></kbd></p>
 </ol>
 <h3>Logic Behind Stock Tickler</h3>
 <ul>
