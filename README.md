@@ -6,7 +6,7 @@ Website allowing users to add listed stocks to their watch list and be alerted s
 <p><strong>Stock Tickler's purpose:</strong><br> 
 Allow users easy access to their favorite stocks much like Robinhood does, but be automatically notified of their stock's status, so users will not have to constantly worry about their stocks' status. </p>
 
-<h3> Accessing Quaranthings</h3>
+<h3> Accessing Stock Tickler</h3>
 <ul>
   <li>Download this project from Github</li>
   <li>Make sure you have python3 installed</li>
