@@ -138,7 +138,3 @@ dmypy.json
 
 # pytype static type analyzer
 .pytype/
-
-# macOS
-*.icloud
-*.DS_Store
