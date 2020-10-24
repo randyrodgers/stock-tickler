@@ -11,7 +11,7 @@ Allow users easy access to their favorite stocks much like Robinhood does, but b
   <li>Download this project from Github</li>
   <li>Make sure you have python3 installed</li>
   <li>Create a virtual environment and pip install django==2.2</li>
-  <li>pip install matplotlib, pandas, pandas-datareader, bcrypt</li>
+  <li>pip install celery==4.4.2, matplotlib, pandas, pandas-datareader, bcrypt</li>
   <li>Navigate to project level folder in terminal and run "python manage.py runserver"</li>
   <li>Go to http://localhost:8000/ in your desired browser!</li>
   <li>Enjoy Stock Tickler!</li>
