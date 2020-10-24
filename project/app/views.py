@@ -2,19 +2,15 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import * 
 import bcrypt
-from project.settings import EMAIL_HOST_USER
-from django.core.mail import send_mail
-from pandas_datareader import data
-from pandas_datareader._utils import RemoteDataError
-import pandas as pd
-import numpy as np
-from datetime import datetime, timedelta
-from decimal import Decimal, ROUND_DOWN
-
-# Stock Constants
-START_DATE = str((datetime.now() - timedelta(days=5*365)).strftime('%Y-%m-%d'))
-END_DATE = str(datetime.now().strftime('%Y-%m-%d'))
-ADJ_CLOSE = 'Adj Close'
+# from project.settings import EMAIL_HOST_USER
+# from django.core.mail import send_mail
+# from pandas_datareader import data
+# from pandas_datareader._utils import RemoteDataError
+# import pandas as pd
+# import numpy as np
+# from datetime import datetime, timedelta
+# from decimal import Decimal, ROUND_DOWN
+from .tasks import send_watch_price_changed_email
 
 def index( request ):
     return render( request, 'index.html' )
@@ -132,17 +128,20 @@ def delete_stock( request, stock_id ):
         return redirect( '/profile' )
     return redirect( '/' )
 
-def update_stock_watch_price( request, stock_id):
+def update_stock_watch_price( request, stock_id ):
     if 'logged_user_id' in request.session:
         if request.method == "POST":
+            # update watch price
             stock = Stock.objects.get( id = stock_id)
             old_price = stock.watch_price
             stock.watch_price = request.POST['watch_price']
             stock.save()
-            subject = "Change to " + stock.ticker + " Watch Price"
-            message = "You are receiving this email to confirm that you have changed your watch price for " + stock.ticker + " from $" + str(old_price) + " to $" + str(stock.watch_price) + ". You will now receive an email notification if the stock reaches your new watch price. Thanks for using Stock Tickler!"
-            receipient = str(User.objects.get(id = request.session['logged_user_id']).email)
-            send_mail(subject, message, EMAIL_HOST_USER, [receipient], fail_silently=False)
+            # send e-mail alert
+            recipient = User.objects.get( id = request.session['logged_user_id']).email 
+            send_watch_price_changed_email( ticker = stock.ticker, 
+                                            old_price = str( old_price ), 
+                                            watch_price = str( stock.watch_price ), 
+                                            user_email = str( recipient ) )
         return redirect('/profile')
     return redirect ( '/' )
 
@@ -238,18 +237,4 @@ def poll_yahoo_and_alert_if_watch_price_met(request):
 
 # Periodically Poll Yahoo, and Email Users if needed:
 # schedule.every( 15 ).minutes.do( poll_yahoo_and_alert_if_watch_price_met ) 
-
-#################### Helper Methods for Getting Stock ################
-def get_data (ticker, start, end):
-    return data.DataReader(ticker, 'yahoo', start, end)
-
-def clean_data(stock_data, col, start, end):
-    weekdays = pd.date_range(start = start, end = end)
-    clean_data = stock_data[col].reindex(weekdays)
-    return clean_data.fillna(method = 'ffill')
-
-def get_stats(stock_data):
-    return {
-        'last_price': np.mean(stock_data.tail(1))
-    }
 
