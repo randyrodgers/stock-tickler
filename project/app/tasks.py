@@ -46,10 +46,6 @@ def poll_yahoo_and_alert_if_watch_price_met():
     for ticker in master_ticker_list:
 
         # poll yahoo, ...
-        # stock_data = get_data( ticker, START_DATE, END_DATE )
-        # cleaned_data = clean_data( stock_data, ADJ_CLOSE, START_DATE, END_DATE )
-        # stock_stats = get_stats( cleaned_data )
-        # new_stock_price = stock_stats['last_price']
         new_stock_price = get_stock_price( ticker = ticker, start = START_DATE, end = END_DATE )
 
         # alert users by ...
@@ -83,23 +79,6 @@ def poll_yahoo_and_alert_if_watch_price_met():
                 else:
                     stock.current_price = new_stock_price
                     stock.save()
-
-#################### Helper Methods for Getting Stock ################
-# @app.task
-# def get_data (ticker, start, end):
-#     return data.DataReader(ticker, 'yahoo', start, end)
-
-# @app.task
-# def clean_data(stock_data, col, start, end):
-#     weekdays = pd.date_range(start = start, end = end)
-#     clean_data = stock_data[col].reindex(weekdays)
-#     return clean_data.fillna(method = 'ffill')
-
-# @app.task
-# def get_stats(stock_data):
-#     return {
-#         'last_price': np.mean(stock_data.tail(1))
-#     }
 
 @app.task
 def get_stock_price( ticker, start, end ):

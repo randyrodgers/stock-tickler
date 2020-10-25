@@ -2,14 +2,6 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import * 
 import bcrypt
-# from project.settings import EMAIL_HOST_USER
-# from django.core.mail import send_mail
-# from pandas_datareader import data
-# from pandas_datareader._utils import RemoteDataError
-# import pandas as pd
-# import numpy as np
-# from datetime import datetime, timedelta
-# from decimal import Decimal, ROUND_DOWN
 from .tasks import send_watch_price_changed_email, \
                    START_DATE, \
                    END_DATE, \
@@ -158,12 +150,8 @@ def find_stock( request ):
                     messages.error( request, value )
                 return redirect( '/add_stock' )
 
-            # stock_data = get_data.delay(request.POST['ticker'], START_DATE, END_DATE)
-            # cleaned_data = clean_data.delay(stock_data, ADJ_CLOSE, START_DATE, END_DATE)
-            # stock_stats = get_stats.delay(cleaned_data)
-            # current_stock_price = stock_stats['last_price']
             current_stock_price = get_stock_price( ticker = request.POST['ticker'], start = START_DATE, end = END_DATE )
-            
+
             # Prevent duplicate listings in the Watch List
             user = User.objects.get(id = request.session['logged_user_id'])
             user_ticker_list = []
@@ -177,64 +165,3 @@ def find_stock( request ):
 
             return redirect('/profile')
     return redirect( '/' )
-
-# def poll_yahoo_and_alert_if_watch_price_met(request):
-#     if 'logged_user_id' in request.session:
-#         master_ticker_list = []
-
-#         # populate the master ticker list
-#         for stock in Stock.objects.all():
-#             if stock.ticker not in master_ticker_list:
-#                 master_ticker_list.append( stock.ticker )
-
-#         # use master ticker list to ...
-#         for ticker in master_ticker_list:
-
-#             # poll yahoo, ...
-#             stock_data = get_data( ticker, START_DATE, END_DATE )
-#             cleaned_data = clean_data( stock_data, ADJ_CLOSE, START_DATE, END_DATE )
-#             stock_stats = get_stats( cleaned_data )
-#             new_stock_price = stock_stats['last_price']
-
-#             # alert users by ...
-#             for user in User.objects.all():
-#                 stocks_list = user.stocks.filter( ticker = ticker )
-#                 if len( stocks_list ) > 0:
-#                     stock = user.stocks.get( ticker = ticker )
-#                     if stock.notify == True:
-#                         # case: the new price has traced upwards from the current price, past or equal to the watch price 
-#                         if new_stock_price >= stock.watch_price and new_stock_price > stock.current_price and stock.watch_price > stock.current_price:
-#                             # ... sending an email about the watch price being met ...
-#                             subject = "Watch Price for " + stock.ticker + " Met"
-#                             message = "You are receiving this email, because the current price for " + stock.ticker + ", $" + \
-#                                       str( new_stock_price ) + ", " + "has met your watch price of $" + str( stock.current_price ) + \
-#                                       ".\nThanks for using Stock Tickler!"
-#                             receipient = str( user.email )
-#                             send_mail( subject, message, EMAIL_HOST_USER, [receipient], fail_silently = False )
-#                             # ... and updating the stock
-#                             stock.notify = False 
-#                             stock.current_price = new_stock_price
-#                             stock.save()
-#                         # case: the new price has traced downwards from the current price, past or equal to the watch price
-#                         elif new_stock_price <= stock.watch_price and new_stock_price < stock.current_price and stock.watch_price < stock.current_price:
-#                             # ... sending an email about the watch price being met ...
-#                             subject = "Watch Price for " + stock.ticker + " Met"
-#                             message = "You are receiving this email, because the current price for " + stock.ticker + ", $" + \
-#                                       str( new_stock_price ) + ", " + "has met your watch price of $" + str( stock.current_price ) + \
-#                                       ".\nThanks for using Stock Tickler!"
-#                             receipient = str( user.email )
-#                             send_mail( subject, message, EMAIL_HOST_USER, [receipient], fail_silently = False )
-#                             # ... and updating the stock
-#                             stock.notify = False 
-#                             stock.current_price = new_stock_price
-#                             stock.save()
-#                     else:
-#                         stock.current_price = new_stock_price
-#                         stock.save()
-
-#         context = {
-#             'user' : User.objects.get( id = request.session['logged_user_id'] ),
-#             'stocks': User.objects.get( id = request.session['logged_user_id'] ).stocks.all()
-#         }
-#         return render(request, 'partials/partial_profile.html', context)
-#     return redirect('/profile')
