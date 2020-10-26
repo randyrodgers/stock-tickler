@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 from decimal import Decimal, ROUND_DOWN
 from project.settings import EMAIL_HOST_USER
 from .models import *
-from celery import current_app
+from celery import current_app, shared_task
 app = current_app._get_current_object()
 
 # Stock Constants
@@ -33,7 +33,7 @@ def send_watch_price_met_email( ticker, current_price, new_price, user_email ):
     receipient = str( user_email )
     send_mail( subject, message, EMAIL_HOST_USER, [receipient], fail_silently = False )
 
-@app.task
+@shared_task
 def poll_yahoo_and_alert_if_watch_price_met():
     master_ticker_list = []
 
@@ -89,13 +89,13 @@ def get_stock_price( ticker, start, end ):
     return np.mean( cleaned_data.tail( 1 ) ) # stock's last price
 
 ##################### Add Periodic Tasks ###################
-@app.on_after_finalize.connect
-def app_ready( **kwargs ):
-    '''
-    Called once after app has been finalized.
-    '''
-    sender = kwargs.get( 'sender' )
+# @app.on_after_finalize.connect
+# def app_ready( **kwargs ):
+#     '''
+#     Called once after app has been finalized.
+#     '''
+#     sender = kwargs.get( 'sender' )
 
-    # periodic tasks
-    interval = 900 # 900 seconds == 15 minutes
-    sender.add_periodic_task( interval, poll_yahoo_and_alert_if_watch_price_met.s() )
+#     # periodic tasks
+#     interval = 900 # 900 seconds == 15 minutes
+#     sender.add_periodic_task( interval, poll_yahoo_and_alert_if_watch_price_met.s() )
