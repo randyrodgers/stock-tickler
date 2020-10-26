@@ -86,4 +86,5 @@ def get_stock_price( ticker, start, end ):
     weekdays = pd.date_range( start = start, end = end )
     clean_data = stock_data[ ADJ_CLOSE ].reindex( weekdays )
     cleaned_data = clean_data.fillna( method = 'ffill' )
-    return np.mean( cleaned_data.tail( 1 ) ) # stock's last price
+    # return stock's last price rounded to 2 decimal places
+    return Decimal( np.mean( cleaned_data.tail( 1 ) ) ).quantize( Decimal( '.01' ), rounding = ROUND_DOWN ) 
