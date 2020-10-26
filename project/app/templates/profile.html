@@ -29,7 +29,7 @@
     <div class="container">
         <br>
         <h5>{{ user.first_name }}{% if user.first_name|last == "s" %}'{% else %}'s{% endif %} Watchlist:</h5>
-        <small class="text-muted">Market data provided by <em><a href="https://finance.yahoo.com/">yahoo! Finance</a></em>.</small>
+        <small class="text-muted">Market data provided by <em><a href="https://finance.yahoo.com/" target="_blank">yahoo! Finance</a></em>.</small>
         <br><br>
         
         <table class="table">
@@ -39,12 +39,12 @@
                     <th scope="col">List Price</th>
                     <th scope="col">Watch Price</th>
                     <th scope="col">Actions</th>
-                    <th scope = "col">
+                    <!-- <th scope = "col">
                         <form action="http://localhost:8000/refresh" method ="post" id = "retrieve_stock_data">
-                        {%csrf_token%}
+                        csrf_token
                             <button class = "btn btn-info">Refresh</button>
                         </form>
-                    </th>
+                    </th> -->
                 </tr>
             </thead>
             <tbody id = "table_body">
