@@ -87,15 +87,3 @@ def get_stock_price( ticker, start, end ):
     clean_data = stock_data[ ADJ_CLOSE ].reindex( weekdays )
     cleaned_data = clean_data.fillna( method = 'ffill' )
     return np.mean( cleaned_data.tail( 1 ) ) # stock's last price
-
-##################### Add Periodic Tasks ###################
-# @app.on_after_finalize.connect
-# def app_ready( **kwargs ):
-#     '''
-#     Called once after app has been finalized.
-#     '''
-#     sender = kwargs.get( 'sender' )
-
-#     # periodic tasks
-#     interval = 900 # 900 seconds == 15 minutes
-#     sender.add_periodic_task( interval, poll_yahoo_and_alert_if_watch_price_met.s() )
