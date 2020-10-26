@@ -25,10 +25,10 @@ def send_watch_price_changed_email( ticker, old_price, watch_price, user_email )
     send_mail( subject, message, EMAIL_HOST_USER, [user_email], fail_silently = False )
 
 @app.task
-def send_watch_price_met_email( ticker, current_price, new_price, user_email ):
+def send_watch_price_met_email( ticker, new_price, watch_price, user_email ):
     subject = "Watch Price for " + ticker + " Met"
     message = "You are receiving this email, because the current price for " + ticker + ", $" + \
-              str( new_price ) + ", " + "has met your watch price of $" + str( current_price ) + \
+              new_price + ", " + "has met your watch price of $" + watch_price + \
               ".\nThanks for using Stock Tickler!"
     receipient = str( user_email )
     send_mail( subject, message, EMAIL_HOST_USER, [receipient], fail_silently = False )
@@ -58,9 +58,9 @@ def poll_yahoo_and_alert_if_watch_price_met():
                     if new_stock_price >= stock.watch_price and new_stock_price > stock.current_price and stock.watch_price > stock.current_price:
                         # ... sending an email about the watch price being met ...
                         send_watch_price_met_email( ticker = stock.ticker, 
-                                                      current_price = stock.current_price, 
-                                                      new_price = new_stock_price, 
-                                                      user_email = user.email )
+                                                    new_price = str( new_stock_price ), 
+                                                    watch_price = str( stock.watch_price ), 
+                                                    user_email = str( user.email ) )
                         # ... and updating the stock
                         stock.notify = False 
                         stock.current_price = new_stock_price
@@ -69,9 +69,9 @@ def poll_yahoo_and_alert_if_watch_price_met():
                     elif new_stock_price <= stock.watch_price and new_stock_price < stock.current_price and stock.watch_price < stock.current_price:
                         # ... sending an email about the watch price being met ...
                         send_watch_price_met_email( ticker = stock.ticker, 
-                                                      current_price = stock.current_price, 
-                                                      new_price = new_stock_price, 
-                                                      user_email = user.email )
+                                                    new_price = str( new_stock_price ), 
+                                                    watch_price = str( stock.watch_price ), 
+                                                    user_email = str( user.email ) )
                         # ... and updating the stock
                         stock.notify = False 
                         stock.current_price = new_stock_price
